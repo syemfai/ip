@@ -26,7 +26,7 @@ public class Garfield {
         System.out.println(" What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        while (true) {
+        while (sc.hasNextLine()) {
             String input = sc.nextLine().trim();
 
             if (input.equals("bye")) {
@@ -106,7 +106,7 @@ public class Garfield {
             }
         }
 
-        sc.close();
+//        sc.close();
     }
 
     public static void main(String[] args) {
