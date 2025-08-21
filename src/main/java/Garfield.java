@@ -41,6 +41,8 @@ public class Garfield {
                     handleMark(input);
                 } else if (input.startsWith("unmark ")) {
                     handleUnmark(input);
+                } else if (input.startsWith("delete ")) {
+                    handleDelete(input);
                 } else if (input.startsWith("todo ")) {
                     handleTodo(input);
                 } else if (input.startsWith("deadline ")) {
@@ -73,6 +75,20 @@ public class Garfield {
             System.out.println("____________________________________________________________");
         } catch (Exception e) {
             throw new GarfieldException("OOPS!!! Invalid task number for mark.");
+        }
+    }
+
+    private void handleDelete(String input) throws GarfieldException {
+        try {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            Task task = items.remove(index);
+            System.out.println("____________________________________________________________");
+            System.out.println(" Noted. I've removed this task:");
+            System.out.println("   " + task);
+            System.out.println(" Now you have " + items.size() + " tasks in the list.");
+            System.out.println("____________________________________________________________");
+        } catch (Exception e) {
+            throw new GarfieldException("OOPS!!! Invalid task number for delete.");
         }
     }
 
