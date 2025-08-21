@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Garfield {
 
@@ -60,12 +60,49 @@ public class Garfield {
                 } catch (Exception e) {
                     System.out.println("Invalid task number.");
                 }
-            } else {
-                Task task = new Task(input);
+            } else if (input.startsWith("todo ")) {
+                String desc = input.substring(5).trim();
+                Task task = new Todo(desc);
                 items.add(task);
                 System.out.println("____________________________________________________________");
-                System.out.println(" added: " + input);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task);
+                System.out.println(" Now you have " + items.size() + " tasks in the list.");
                 System.out.println("____________________________________________________________");
+            } else if (input.startsWith("deadline ")) {
+                try {
+                    String[] parts = input.substring(9).split(" /by ");
+                    String desc = parts[0].trim();
+                    String by = parts[1].trim();
+                    Task task = new Deadline(desc, by);
+                    items.add(task);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + task);
+                    System.out.println(" Now you have " + items.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                } catch (Exception e) {
+                    System.out.println("Invalid deadline format. Use: deadline <desc> /by <date>");
+                }
+            } else if (input.startsWith("event ")) {
+                try {
+                    String[] parts = input.substring(6).split(" /from ");
+                    String desc = parts[0].trim();
+                    String[] timeParts = parts[1].split(" /to ");
+                    String from = timeParts[0].trim();
+                    String to = timeParts[1].trim();
+                    Task task = new Event(desc, from, to);
+                    items.add(task);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + task);
+                    System.out.println(" Now you have " + items.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                } catch (Exception e) {
+                    System.out.println("Invalid event format. Use: event <desc> /from <start> /to <end>");
+                }
+            } else {
+                System.out.println("Unknown command. Try todo/deadline/event/list/mark/unmark/bye.");
             }
         }
 
