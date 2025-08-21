@@ -29,84 +29,115 @@ public class Garfield {
         while (sc.hasNextLine()) {
             String input = sc.nextLine().trim();
 
-            if (input.equals("bye")) {
-                System.out.println("____________________________________________________________");
-                System.out.println(" Bye. Hope to see you again soon!");
-                System.out.println("____________________________________________________________");
-                break;
-            } else if (input.equals("list")) {
-                this.printItems();
-            } else if (input.startsWith("mark ")) {
-                try {
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    Task task = items.get(index);
-                    task.markAsDone();
+            try {
+                if (input.equals("bye")) {
                     System.out.println("____________________________________________________________");
-                    System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   " + task);
+                    System.out.println(" Bye. Hope to see you again soon!");
                     System.out.println("____________________________________________________________");
-                } catch (Exception e) {
-                    System.out.println("Invalid task number.");
+                    break;
+                } else if (input.equals("list")) {
+                    this.printItems();
+                } else if (input.startsWith("mark ")) {
+                    handleMark(input);
+                } else if (input.startsWith("unmark ")) {
+                    handleUnmark(input);
+                } else if (input.startsWith("todo ")) {
+                    handleTodo(input);
+                } else if (input.startsWith("deadline ")) {
+                    handleDeadline(input);
+                } else if (input.startsWith("event ")) {
+                    handleEvent(input);
+                } else if (input.equals("todo") || input.equals("deadline") || input.equals("event")) {
+                    throw new GarfieldException("OOPS!!! The description of a " + input + " cannot be empty.");
+                } else {
+                    throw new GarfieldException("OOPS!!! I'm sorry, I don't recognize that command.");
                 }
-            } else if (input.startsWith("unmark ")) {
-                try {
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    Task task = items.get(index);
-                    task.markAsNotDone();
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   " + task);
-                    System.out.println("____________________________________________________________");
-                } catch (Exception e) {
-                    System.out.println("Invalid task number.");
-                }
-            } else if (input.startsWith("todo ")) {
-                String desc = input.substring(5).trim();
-                Task task = new Todo(desc);
-                items.add(task);
+            } catch (GarfieldException e) {
                 System.out.println("____________________________________________________________");
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("   " + task);
-                System.out.println(" Now you have " + items.size() + " tasks in the list.");
+                System.out.println(" " + e.getMessage());
                 System.out.println("____________________________________________________________");
-            } else if (input.startsWith("deadline ")) {
-                try {
-                    String[] parts = input.substring(9).split(" /by ");
-                    String desc = parts[0].trim();
-                    String by = parts[1].trim();
-                    Task task = new Deadline(desc, by);
-                    items.add(task);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + task);
-                    System.out.println(" Now you have " + items.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
-                } catch (Exception e) {
-                    System.out.println("Invalid deadline format. Use: deadline <desc> /by <date>");
-                }
-            } else if (input.startsWith("event ")) {
-                try {
-                    String[] parts = input.substring(6).split(" /from ");
-                    String desc = parts[0].trim();
-                    String[] timeParts = parts[1].split(" /to ");
-                    String from = timeParts[0].trim();
-                    String to = timeParts[1].trim();
-                    Task task = new Event(desc, from, to);
-                    items.add(task);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + task);
-                    System.out.println(" Now you have " + items.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
-                } catch (Exception e) {
-                    System.out.println("Invalid event format. Use: event <desc> /from <start> /to <end>");
-                }
-            } else {
-                System.out.println("Unknown command. Try todo/deadline/event/list/mark/unmark/bye.");
             }
         }
 
-//        sc.close();
+        sc.close();
+    }
+
+    private void handleMark(String input) throws GarfieldException {
+        try {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            Task task = items.get(index);
+            task.markAsDone();
+            System.out.println("____________________________________________________________");
+            System.out.println(" Nice! I've marked this task as done:");
+            System.out.println("   " + task);
+            System.out.println("____________________________________________________________");
+        } catch (Exception e) {
+            throw new GarfieldException("OOPS!!! Invalid task number for mark.");
+        }
+    }
+
+    private void handleUnmark(String input) throws GarfieldException {
+        try {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            Task task = items.get(index);
+            task.markAsNotDone();
+            System.out.println("____________________________________________________________");
+            System.out.println(" OK, I've marked this task as not done yet:");
+            System.out.println("   " + task);
+            System.out.println("____________________________________________________________");
+        } catch (Exception e) {
+            throw new GarfieldException("OOPS!!! Invalid task number for unmark.");
+        }
+    }
+
+    private void handleTodo(String input) throws GarfieldException {
+        String desc = input.substring(5).trim();
+        if (desc.isEmpty()) throw new GarfieldException("OOPS!!! The description of a todo cannot be empty.");
+        Task task = new Todo(desc);
+        items.add(task);
+        System.out.println("____________________________________________________________");
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task);
+        System.out.println(" Now you have " + items.size() + " tasks in the list.");
+        System.out.println("____________________________________________________________");
+    }
+
+    private void handleDeadline(String input) throws GarfieldException {
+        try {
+            String[] parts = input.substring(9).split(" /by ");
+            if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty())
+                throw new GarfieldException("OOPS!!! Deadline command requires description and /by date/time.");
+            Task task = new Deadline(parts[0].trim(), parts[1].trim());
+            items.add(task);
+            System.out.println("____________________________________________________________");
+            System.out.println(" Got it. I've added this task:");
+            System.out.println("   " + task);
+            System.out.println(" Now you have " + items.size() + " tasks in the list.");
+            System.out.println("____________________________________________________________");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new GarfieldException("OOPS!!! Deadline command requires /by date/time.");
+        }
+    }
+
+    private void handleEvent(String input) throws GarfieldException {
+        try {
+            String[] parts = input.substring(6).split(" /from ");
+            if (parts.length < 2) throw new GarfieldException("OOPS!!! Event command requires /from and /to times.");
+            String desc = parts[0].trim();
+            String[] timeParts = parts[1].split(" /to ");
+            if (timeParts.length < 2) throw new GarfieldException("OOPS!!! Event command requires /to time.");
+            String from = timeParts[0].trim();
+            String to = timeParts[1].trim();
+            Task task = new Event(desc, from, to);
+            items.add(task);
+            System.out.println("____________________________________________________________");
+            System.out.println(" Got it. I've added this task:");
+            System.out.println("   " + task);
+            System.out.println(" Now you have " + items.size() + " tasks in the list.");
+            System.out.println("____________________________________________________________");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new GarfieldException("OOPS!!! Event command requires /from and /to times.");
+        }
     }
 
     public static void main(String[] args) {
