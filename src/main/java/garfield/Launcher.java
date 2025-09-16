@@ -2,6 +2,7 @@ package garfield;
 
 import javafx.application.Application;
 
+
 /**
  * Launches the JavaFX application.
  */
