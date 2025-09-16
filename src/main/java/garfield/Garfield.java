@@ -105,6 +105,7 @@ public class Garfield {
     private void handleDelete(String input) throws GarfieldException {
         try {
             int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            assert index >= 0 && index < tasks.size() : "Index out of bounds for deleteTask";
             Task task = items.remove(index);
             System.out.println("____________________________________________________________");
             System.out.println(" Noted. I've removed this task:");
