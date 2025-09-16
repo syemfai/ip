@@ -1,6 +1,7 @@
 package garfield;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -72,6 +73,8 @@ public class Garfield {
                     handleEvent(input);
                 } else if (input.equals("todo") || input.equals("deadline") || input.equals("event")) {
                     throw new GarfieldException("OOPS!!! The description of a " + input + " cannot be empty.");
+                } else if (input.startsWith("find ")) {
+                    handleFind(input);
                 } else {
                     throw new GarfieldException("OOPS!!! I'm sorry, I don't recognize that command.");
                 }
@@ -176,6 +179,13 @@ public class Garfield {
             throw new GarfieldException("OOPS!!! Event command requires /from and /to times.");
         }
     }
+
+    private void handleFind(String input) throws GarfieldException {
+        String keyword = input.substring(5).trim();
+        List<Task> found = tasks.findTasks(keyword);
+        ui.showFindResults(found);
+    }
+
 
     public static void main(String[] args) {
         Garfield g = new Garfield("data/tasks.txt");
