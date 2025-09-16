@@ -4,6 +4,10 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * Handles loading tasks from and saving tasks to the disk.
+ * Responsible for file I/O operations related to task persistence.
+ */
 public class Storage {
     private final Path filePath;
 

@@ -3,6 +3,10 @@ package garfield;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The main class for the Garfield chatbot application.
+ * Handles initialization of UI, storage, and task list, and runs the main program loop.
+ */
 public class Garfield {
 
     public ArrayList<Task> items;

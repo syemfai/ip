@@ -1,5 +1,9 @@
 package garfield;
 
+/**
+ * Represents a generic task in the Garfield chatbot.
+ * Serves as the base class for specific task types such as Todo, Deadline, and Event.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
