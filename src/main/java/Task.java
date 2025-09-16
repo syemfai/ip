@@ -31,7 +31,7 @@ public class Task {
             case "D":
                 return new Deadline(parts[2], parts[1].equals("1"), parts[3]);
             case "E":
-                return new Event(parts[2], parts[1].equals("1"), parts[3]);
+                return new Event(parts[2], parts[1].equals("1"), parts[3], parts[4]);
             default:
                 throw new IllegalArgumentException("Unknown task type");
         }

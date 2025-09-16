@@ -1,27 +1,31 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    protected String from;
-    protected String to;
-    protected String at;
+    protected LocalDate from;
+    protected LocalDate to;
 
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.from = LocalDate.parse(from); // expects yyyy-MM-dd
+        this.to = LocalDate.parse(to);     // expects yyyy-MM-dd
     }
-    
-    public Event(String description, boolean isDone, String at) {
+
+    public Event(String description, boolean isDone, String from, String to) {
         super(description);
         this.isDone = isDone;
-        this.at = at;
+        this.from = LocalDate.parse(from);
+        this.to = LocalDate.parse(to);
     }
 
     @Override
     public String toStorageString() {
-        return String.format("E | %d | %s | %s", isDone ? 1 : 0, description, at);
+        return String.format("E | %d | %s | %s | %s", isDone ? 1 : 0, description, from.toString(), to.toString());
     }
 
     @Override
     public String toString() {
-        return "[" + TaskType.EVENT.getCode() + "]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+        return "[E]" + super.toString() + " (from: " + from.format(formatter) + " to: " + to.format(formatter) + ")";
     }
 }
