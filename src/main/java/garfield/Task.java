@@ -5,6 +5,7 @@ package garfield;
  * Serves as the base class for specific task types such as Todo, Deadline, and Event.
  */
 public class Task {
+    
     protected String description;
     protected boolean isDone;
 
