@@ -186,6 +186,21 @@ public class Garfield {
         ui.showFindResults(found);
     }
 
+    /**
+     * Returns Garfield's response to user input.
+     *
+     * @param input The user's input string.
+     * @return Garfield's response string.
+     */
+    public String getResponse(String input) {
+        // Parse input, execute command, and return response.
+        // For minimal demo, just echo the input:
+        if (input.equalsIgnoreCase("bye")) {
+            return "Bye. Hope to see you again soon!";
+        }
+        // TODO: Integrate with your parser and command execution logic.
+        return "You said: " + input;
+    }
 
     public static void main(String[] args) {
         Garfield g = new Garfield("data/tasks.txt");

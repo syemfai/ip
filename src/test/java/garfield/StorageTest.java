@@ -1,6 +1,6 @@
 package garfield;
 
-import garfield.task.*;
+import garfield.*;
 import org.junit.jupiter.api.*;
 import java.nio.file.*;
 import java.util.*;
@@ -27,8 +27,14 @@ public class StorageTest {
         tasks.add(new Todo("read book", false));
         tasks.add(new Deadline("return book", true, "2023-09-16"));
         storage.save(tasks);
-
-        List<Task> loadedTasks = storage.load();
+        
+        List<Task> loadedTasks;
+        try {
+            loadedTasks = storage.load();
+        } catch (GarfieldException e) {
+            fail("Loading tasks failed with exception: " + e.getMessage());
+            return;
+        }
         assertEquals(2, loadedTasks.size());
         assertEquals("read book", loadedTasks.get(0).description);
         assertTrue(loadedTasks.get(1).isDone);
@@ -37,7 +43,13 @@ public class StorageTest {
 
     @Test
     public void load_nonExistentFile_returnsEmptyList() {
-        List<Task> loadedTasks = storage.load();
+        List<Task> loadedTasks;
+        try {
+            loadedTasks = storage.load();
+        } catch (GarfieldException e) {
+            fail("Loading tasks failed with exception: " + e.getMessage());
+            return;
+        }
         assertTrue(loadedTasks.isEmpty());
     }
 
