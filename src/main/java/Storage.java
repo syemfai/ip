@@ -9,7 +9,7 @@ public class Storage {
         this.filePath = Paths.get(filePath);
     }
 
-    public List<Task> load() {
+    public List<Task> load() throws GarfieldException {
         List<Task> tasks = new ArrayList<>();
         if (!Files.exists(filePath)) {
             try {
@@ -17,6 +17,7 @@ public class Storage {
                 Files.createFile(filePath);
             } catch (IOException e) {
                 System.out.println("Error creating data file: " + e.getMessage());
+                throw new GarfieldException("Could not create data file.");
             }
             return tasks;
         }

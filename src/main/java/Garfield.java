@@ -4,9 +4,24 @@ import java.util.Scanner;
 public class Garfield {
 
     public ArrayList<Task> items;
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
     public Garfield() {
         this.items = new ArrayList<>();
+    }
+
+    public Garfield(String filePath) {
+        ui =  new Ui();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (GarfieldException e) {
+            ui.showLoadingError();
+            tasks = new TaskList();
+        }
+
     }
 
     public void printItems() {
@@ -157,7 +172,7 @@ public class Garfield {
     }
 
     public static void main(String[] args) {
-        Garfield g = new Garfield();
+        Garfield g = new Garfield("data/tasks.txt");
         g.run();
     }
 }
