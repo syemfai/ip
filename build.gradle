@@ -43,7 +43,7 @@ test {
 }
 
 application {
-    mainClass.set("garfield.Garfield")
+    mainClass.set("garfield.gui.Launcher")
     applicationDefaultJvmArgs = ['-ea']
 }
 
