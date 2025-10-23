@@ -1,3 +1,4 @@
+// Credit to Tsay Yong for code inspiration.
 package garfield.core;
 
 public class GarfieldException extends Exception {

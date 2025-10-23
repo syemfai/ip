@@ -1,3 +1,4 @@
+// Credit to Tsay Yong for code inspiration.
 package garfield.parser;
 
 import garfield.core.GarfieldException;
