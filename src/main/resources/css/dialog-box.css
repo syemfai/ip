@@ -1,0 +1,37 @@
+/* Row alignment hints (mainly for clarity) */
+.user-row { -fx-alignment: TOP_RIGHT; }
+.bot-row  { -fx-alignment: TOP_LEFT;  }
+
+/* Base bubble styling */
+.label {
+    -fx-padding: 8 10 8 10;
+    -fx-background-radius: 12;
+    -fx-background-insets: 0;
+    -fx-wrap-text: true;
+}
+
+/* Asymmetric look */
+.user-bubble {
+    -fx-background-color: #e8f0fe; /* pale blue */
+    -fx-text-fill: #183153;
+}
+.bot-bubble {
+    -fx-background-color: #f4f6f8; /* very light gray */
+    -fx-text-fill: #1f2937;
+}
+
+/* Error pop */
+.error-bubble {
+    -fx-background-color: #fee2e2; /* light red */
+    -fx-text-fill: #7f1d1d;
+    -fx-border-color: #ef4444;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+/* Avatar polish */
+#displayPicture {
+    -fx-opacity: 0.95;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0.4, 1, 1);
+    -fx-translate-y: 2;
+}

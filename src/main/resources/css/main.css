@@ -1,0 +1,15 @@
+/* src/main/resources/css/main.css */
+.root {
+    -fx-background-color: white;
+    /* Background image */
+    -fx-background-image: url("../images/background.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: cover;  /* alternatives: contain | stretch | 400px 600px */
+}
+
+/* Keep scrollpane transparent so the wallpaper shows through */
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
